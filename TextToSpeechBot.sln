@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31717.71
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextToSpeechBot", "TextToSpeechBot\TextToSpeechBot.csproj", "{90C9C120-9CBA-444C-A7BC-A96ECF889344}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90C9C120-9CBA-444C-A7BC-A96ECF889344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90C9C120-9CBA-444C-A7BC-A96ECF889344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90C9C120-9CBA-444C-A7BC-A96ECF889344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90C9C120-9CBA-444C-A7BC-A96ECF889344}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {48C984C8-0CF0-44F9-8BBC-2B2D9389B862}
+	EndGlobalSection
+EndGlobal
