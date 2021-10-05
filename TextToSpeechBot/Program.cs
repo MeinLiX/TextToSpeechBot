@@ -13,8 +13,6 @@ using CancellationTokenSource cts = new();
 GoogleCloud googleCloud = new(GOOGLE_APPLICATION_CREDENTIALS, GOOGLE_APPLICATION_PROJECT_ID);
 TelegramBot telegramBot = new(TELEGRAM_BOT_TOKEN, googleCloud, cts.Token);
 
-//googleCloud.GetSpeech("Це тест. Перевіряємо функціонал.");
-
 await telegramBot.StartAsync();
 
 Console.ReadKey();

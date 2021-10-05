@@ -5,6 +5,7 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.InlineQueryResults;
+using System.Text.RegularExpressions;
 
 namespace TextToSpeechBot;
 
@@ -37,6 +38,7 @@ internal class TelegramBot
 
     internal class Handler
     {
+        private const string RegexAcceptedTextPatter = "[А-яіІєЄїЇґҐ1-9 !@#$%^&*()\\-+=;'\":{},.]+";
         private readonly GoogleCloud _googleCloud;
         public Handler(GoogleCloud googleCloud)
         {
@@ -78,20 +80,23 @@ internal class TelegramBot
         {
             Console.WriteLine($"Receive inline query type. From: {inlineQuery.From.Username}");
 
-            if (inlineQuery.Query == null)
+            if (inlineQuery.Query == null || inlineQuery.Query == "")
+            {
                 return;
-            if (inlineQuery.Query == "")
+            }
+
+            if (!Regex.IsMatch(inlineQuery.Query, RegexAcceptedTextPatter))
+            {
+                await botClient.AnswerInlineQueryAsync(inlineQuery.Id, new[] { new InlineQueryResultArticle("1", "Щось не те... Українською будь ласка.", null) }, cacheTime: 55);
                 return;
+            }
 
             Stream SpeechStream = _googleCloud.GetSpeech(inlineQuery.Query);
             string url = await _googleCloud.UploadFileAsync(SpeechStream, $"{inlineQuery.Query}.mp3");
-            InlineQueryResultBase[] results = {
-                new  InlineQueryResultVoice("1",url,inlineQuery.Query)
-            };
 
             try
             {
-                await botClient.AnswerInlineQueryAsync(inlineQuery.Id, results, cacheTime: 55);
+                await botClient.AnswerInlineQueryAsync(inlineQuery.Id, new[] { new InlineQueryResultVoice("1", url, inlineQuery.Query) }, cacheTime: 55);
             }
             catch (Exception ex)
             {
@@ -108,8 +113,14 @@ internal class TelegramBot
                 return;
             }
 
-            string helpMessage = "Write me a message and I will try to voice it to you.";
+            if (!Regex.IsMatch(message.Text, RegexAcceptedTextPatter))
+            {
+                await botClient.SendTextMessageAsync(chatId: message.Chat.Id,
+                                                     text: "Щось не те... Українською будь ласка.");
+                return;
+            }
 
+            string helpMessage = "Надішліть мені повідомлення, я спробую його озвучити.";
 
             if (message.Text.StartsWith("/"))
             {
